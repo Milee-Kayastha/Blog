@@ -6,7 +6,7 @@ const Home = () => {
   const [posts, setPosts] = useState([]);
 
   const getBlogPosts = () => {
-    fetch(backend_url + "post").then((response) => {
+    fetch(backend_url + "blog").then((response) => {
       response.json().then((posts) => {
         setPosts(posts);
       });
