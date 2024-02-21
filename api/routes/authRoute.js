@@ -69,7 +69,7 @@ router.get("/userProfile", (req, res) => {
 
 router.post("/logout", (req, res) => {
   res.cookie("token", "").json("ok");
-//   res.clearCookie("token").json("ok"); // Clear token cookie
+  //   res.clearCookie("token").json("ok"); // Clear token cookie
 });
 
 export default router;

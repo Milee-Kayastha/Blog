@@ -12,10 +12,11 @@ const MONGO_URL =
 
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use(express.json());
-app.use(cookieParser);
+app.use(cookieParser());
+app.use('/uploads', express.static(__dirname + '/uploads'));
 
 app.use("/", authRoute);
-app.use("/blog/", blogPostRoute);
+app.use("/blog", blogPostRoute);
 
 mongoose
   .connect(MONGO_URL)

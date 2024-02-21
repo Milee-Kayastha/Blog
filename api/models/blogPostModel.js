@@ -5,7 +5,7 @@ const blogPostSchema = mongoose.Schema(
     title: String,
     summary: String,
     content: String,
-    cover: String,
+    coverImg: String,
     author: { type: Schema.Types.ObjectId, ref: "User" },
   },
   {
