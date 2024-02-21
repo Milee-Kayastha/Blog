@@ -1,18 +1,19 @@
 import express from "express";
 import fs from "fs";
+import jwt from "jsonwebtoken";
 import multer from "multer";
-import BlogPostModel from "../models/blogPostModel.js";
 import { secret } from "../config.js";
+import BlogPostModel from "../models/blogPostModel.js";
 
 const router = express.Router();
 const uploadMiddleware = multer({ dest: "uploads/" });
 
 router.post("/", uploadMiddleware.single("coverImg"), (req, res) => {
-  if (!req.coverImg) {
+  if (!req.file) {
     return res.status(400).json({ error: "No cover image uploaded." });
   }
 
-  const { originalname, path } = req.coverImg;
+  const { originalname, path } = req.file;
   const parts = originalname.split(".");
   const ext = parts[parts.length - 1];
   const newPath = `${path}.${ext}`;
@@ -44,8 +45,8 @@ router.post("/", uploadMiddleware.single("coverImg"), (req, res) => {
 
 router.put("/", uploadMiddleware.single("coverImg"), async (req, res) => {
   let newPath = null;
-  if (req.coverImg) {
-    const { originalname, path } = req.coverImg;
+  if (req.file) {
+    const { originalname, path } = req.file;
     const parts = originalname.split(".");
     const ext = parts[parts.length - 1];
     newPath = path + "." + ext;

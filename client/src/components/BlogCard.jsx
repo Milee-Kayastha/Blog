@@ -1,6 +1,7 @@
 import React from "react";
 import { formatISO9075 } from "date-fns";
 import { backend_url } from "../../config";
+import { Link } from "react-router-dom";
 
 const BlogCard = ({
   _id,
