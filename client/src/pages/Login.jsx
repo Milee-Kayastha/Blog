@@ -1,22 +1,34 @@
-import React, { useState } from "react";
-import { backend_url } from "../../config";
 import { Modal, message } from "antd";
+import React, { useContext, useState } from "react";
+import { backend_url } from "../../config";
+import { UserContext } from "../context/UserContext";
 
 const Login = ({ onOpen, onClose }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const { setUserInfo } = useContext(UserContext);
 
   const loginUser = async (e) => {
     e.preventDefault();
-    const response = await fetch(backend_url + "login", {
-      method: "POST",
-      body: JSON.stringify({ username, password }),
-      headers: { "Content-Type": "application/json" },
-    });
-    if (response.status === 200) {
-      message.success("Login successful");
-    } else {
-      message.error("Login failed");
+    try {
+      const response = await fetch(backend_url + "login", {
+        method: "POST",
+        body: JSON.stringify({ username, password }),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        const userInfo = await response.json();
+        setUserInfo(userInfo);
+        onClose();
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.error);
+      }
+    } catch (error) {
+      console.error(error);
+      message.error(error.message);
     }
   };
   return (

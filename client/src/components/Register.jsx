@@ -8,17 +8,26 @@ const Register = ({ onOpen, onClose }) => {
 
   const registerUser = async (e) => {
     e.preventDefault();
-    const response = await fetch(backend_url + "register", {
-      method: "POST",
-      body: JSON.stringify({ username, password }),
-      headers: { "Content-Type": "application/json" },
-    });
-    if (response.status === 200) {
-      message.success("Registration successful");
-    } else {
-      message.error("Registration failed");
+    try {
+      const response = await fetch(backend_url + "register", {
+        method: "POST",
+        body: JSON.stringify({ username, password }),
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (response.ok) {
+        message.success("Registration successful");
+      } else {
+        const errorData = await response.json(); 
+        console.error(errorData);
+        message.error(errorData.error || "Registration failed"); 
+      }
+    } catch (error) {
+      console.error(error);
+      message.error("An error occurred during registration"); 
     }
   };
+
   return (
     <Modal open={onOpen} onCancel={onClose} footer={null}>
       <form className="register" onSubmit={registerUser}>
