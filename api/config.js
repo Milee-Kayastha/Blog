@@ -1,1 +1,1 @@
-export const secret = "mlpnohbfvdbjvkndcdjvbwubsdzu"
+export const secret = "mjiulnegekkoaoykajsetohna"
